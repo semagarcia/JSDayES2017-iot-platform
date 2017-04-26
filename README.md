@@ -1,2 +1,2 @@
 # JSDayES2017-iot-platform
-IoT Platform developed for JSDayES 2017 event
+Source code of IoT Platform developed for JSDayES 2017 event
