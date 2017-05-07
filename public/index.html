@@ -1,0 +1,140 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>T3chFest 2017 - Plataforma IoT :: Home</title>
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="" style="padding-top:8px">
+                <img alt="Brand" src="./images/logo.png" width="48px">
+            </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a id="menu-link-dashboard" page="dashboard" href="#">Dashboard</a></li>
+                <li><a id="menu-link-sensors" page="sensors" href="#">Sensors</a></li>
+                <li><a id="menu-link-apps" page="applications" href="#">Applications</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="menu-link-settings" page="settings" href="#">Settings</a></li>
+                <li><a  href="#">Logout</a></li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-outlet">
+        <img src="./images/iot.jpg" width="100%" />
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="text-align:center; padding-top:12px; font-size: 2.5rem">
+            <p class="text-muted"><strong>T3chFest 2017</strong> - 10 de Febrero</p>
+            <p>¿Plataforma casera para IoT? ¡Es posible y es barato!</p>
+        </div>
+    </footer>
+
+    <script src="./js/libs/jquery.min.js"></script>
+    <script src="./js/libs/bootstrap.js"></script>
+    <script src="./js/libs/socket.io.js"></script>
+    <script src="./js/libs/highcharts.js"></script>
+    <script src="./js/libs/highcharts-more.js"></script>
+    <script src="./js/utils/sema-utils.js"></script>
+    <script src="./js/libs/artyom.min.js"></script>
+    <script>
+        // Debug mode enabled
+        window.semaDebugMode = false;
+
+        $(document).ready(() => {
+            Highcharts.setOptions({
+                global: {
+                    useUTC: false
+                }
+            });
+
+            $('#menu-link-dashboard, #menu-link-sensors, #menu-link-apps, #menu-link-settings').click(function() {
+                $.get($(this).attr('page') + '.html', (data) => {
+                    $('.container-outlet').fadeOut(300, function() {
+                        $(this).html(data);
+                        $(this).fadeIn(300);
+                    });
+                });
+            });
+
+            artyom.addCommands({
+                indexes: ["saluda"],
+                action: () => {
+                    artyom.say('Hola! Cómo estás hoy?');
+                }
+            });
+
+            artyom.addCommands({
+                indexes: ["duerme"],
+                action: () => {
+                    artyom.dontObey();
+                }
+            });
+
+            artyom.addCommands({
+                indexes: ["despierta"],
+                action: () => {
+                    artyom.say('Aquí estoy, dime!');
+                    artyom.obey();
+                }
+            });
+
+            artyom.addCommands({
+                indexes: ["menú *"],
+                smart: true,
+                action: (i, wildcard) => {
+                    console.log(wildcard);
+                    switch(wildcard) {
+                        case 'inicio':
+                        console.log('inicio');
+                            break;
+                        case 'cuadro de mandos':
+                            console.log('dashboard');
+                            $('#menu-link-dashboard').trigger('click');
+                            break;
+                        case 'sensores':
+                            console.log('sensores');
+                            $('#menu-link-sensors').trigger('click');
+                            break;
+                        case 'aplicaciones':
+                            console.log('aplicaciones');
+                            $('#menu-link-apps').trigger('click');
+                            break;
+                        case 'configuración':
+                            console.log('config');
+                            $('#menu-link-settings').trigger('click');
+                            break;
+                    }
+                }
+            });
+
+            artyom.initialize({
+                continuous: true,
+                lang: "es-ES",
+                obeyKeyword: "reconocimiento",  // reconocimiento + *comando*
+                listen: true,
+                debug: true
+            });
+        });
+
+        var socket = io.connect();
+        socket.on('connect', function(data) {
+            socket.emit('join', 'Hello World from client');
+        });
+    </script>
+</body>
+</html>
