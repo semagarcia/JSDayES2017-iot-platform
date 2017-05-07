@@ -3,118 +3,20 @@ var app = express();
 var cors = require('cors');
 var server = require('http').createServer(app);  
 var io = require('socket.io')(server);
-//var settings = require('./settings.json');
-var platformStatus = {
-  temperature: [],
-  gas: [],
-  light: [],
-  moisture: [],
-  water: [],
-  airQuality: [],
-  music: []
-};
 
-var mraa = require('mraa');
-var sensors = require('jsupm_grove');
-var tempSensor = new sensors.GroveTemp(0);
-var lightSensor = new sensors.GroveLight(1);
-var rotarySensor = new sensors.GroveRotary(2);
-var GAS_THRESHOLD = 400;
-var gasSensorLibrary = require('jsupm_gas');
-var gasSensor = new gasSensorLibrary.MQ5(3);
-var buzzer = new mraa.Gpio(5);
-buzzer.dir(mraa.DIR_OUT);
-var buzzerState = 0;
-var panicMode = false;
-var intervalPanicMode;
-var led = new sensors.GroveLed(3);
-var ledState = 'off';
-var touchSensor = new mraa.Gpio(6);
-touchSensor.dir(mraa.DIR_IN);
-
-// Initialize sensors
-buzzer.write(0);
-led.off();
-
-//
+// Static folder configuration
 app.use(express.static(__dirname + '/public'));  
 app.use('/js', express.static(__dirname + '/public')); 
 app.use('/css', express.static(__dirname + '/public')); 
-
-app.use(cors());
-/*app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});*/
-
 app.get('/', (req, res) => {
   res.sendFile('public/index.html');
 });
 
-app.get('/settings', (req, res) => {
-  // Read from settings.json
-  res.send([
-    { key: 'frequency', name: 'Sampling frequency', value: 'xxx' },
-    { key: 'numberOfPoints', name: 'Number of points', value: 'yyy' },
-    { key: 'k1', name: 'n1', value: 'v1' },
-    { key: 'k2', name: 'n2', value: 'v2' }
-  ]);
-});
+// CORS configuration
+app.use(cors());
 
-app.get('/temp', (req, res) => {
-  res.send({
-    sensor: 'temperature',
-    lastValues: platformStatus.temperature.slice(-20)
-  });
-});
-
-app.get('/gas', (req, res) => {
-  res.send({
-    sensor: 'gas',
-    lastValues: platformStatus.gas.slice(-20)
-  });
-});
-
-app.get('/light', (req, res) => {
-  res.send({
-    sensor: 'light',
-    lastValues: platformStatus.light.slice(-20)
-  });
-});
-
-app.get('/air-quality', (req, res) => {
-  res.send({
-    sensor: 'airQuality',
-    lastValues: platformStatus.airQuality.slice(-20)
-  });
-});
-
-app.get('/moisture', (req, res) => {
-  res.send({
-    sensor: 'moisture',
-    lastValues: platformStatus.moisture.slice(-20)
-  });
-});
-
-app.get('/music', (req, res) => {
-  res.send({
-    sensor: 'music',
-    currentStatus: {
-      isPlaying: false,
-      song: ''
-    }
-  });
-});
-
-app.get('/sensor/led', (req, res) => {
-  res.send({
-    sensor: 'led',
-    state: ledState
-  });
-});
+// Express routes
+app.use('/api', require('./server/routes')); 
 
 /**
  * 
@@ -159,7 +61,7 @@ io.on('connection', (clientSocket) => {
 /**
  * La que envía el dato actualizado
  */
-setInterval(function(){
+/*setInterval(function(){
   var now = new Date().getTime();
   var tempValue = tempSensor.value();
   var gasValue = gasSensor.getSample();
@@ -208,6 +110,7 @@ setInterval(function(){
     }
   });
 }, 1000); // Parametrizar este valor
+*/
 
 function getRandomValue(max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
