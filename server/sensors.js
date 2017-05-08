@@ -1,5 +1,6 @@
 var mraa = require('mraa');
-var sensors = require('jsupm_grove');
+var groveSensors = require('jsupm_grove');
+var groveMoisture = require('jsupm_grovemoisture');
 var gasSensorLibrary = require('jsupm_gas');
 var GAS_THRESHOLD = 400;
 
@@ -16,15 +17,15 @@ var platformStatus = {
 
 // Analog sensors
 var airQualitySensor;  // (A0)
-var lightSensor = new sensors.GroveLight(1);
-var tempSensor = new sensors.GroveTemp(2);
-var rotarySensor = new sensors.GroveRotary(2);
+var lightSensor = new groveSensors.GroveLight(1);
+var tempSensor = new groveSensors.GroveTemp(2);
+var moistureSensor = new groveMoisture.GroveMoisture(3);
 var gasSensor = new gasSensorLibrary.MQ5(4);
 
 // Digital sensors
 var touchSensor = new mraa.Gpio(2);
-var waterSensor;  // (D4)
-var ledSensor = new sensors.GroveLed(5);
+var waterSensor = new mraa.Gpio(4);  
+var ledSensor = new groveSensors.GroveLed(5);
 var buzzerSensor = new mraa.Gpio(6);
 
 // Configure GPIO direction
@@ -32,7 +33,7 @@ buzzerSensor.dir(mraa.DIR_OUT);
 touchSensor.dir(mraa.DIR_IN);
 
 //
-var buzzerSensorState = 0;
+var buzzerState = 0;
 var panicMode = false;
 var intervalPanicMode;
 var ledState = 'off';
@@ -57,9 +58,9 @@ module.exports = {
             var tempValue = tempSensor.value();
             var gasValue = gasSensor.getSample();
             var lightValue = lightSensor.value();
-            var rotValue = rotarySensor.abs_value();
             var touchValue = touchSensor.read();
-            console.log(`>> T: ${tempValue}ºC, L: ${lightValue}LUX, R: ${rotValue}º, G: ${gasValue}, T2: ${touchValue}`);
+            var moistureValue = moistureSensor.value();
+            console.log(`>> T: ${tempValue}ºC, L: ${lightValue}LUX, M: ${moistureValue}º, G: ${gasValue}, T2: ${touchValue}`);
 
             // Update the status of the platform
             platformStatus.temperature.push({x: now, y: tempValue});
