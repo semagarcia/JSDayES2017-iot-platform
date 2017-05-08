@@ -29,8 +29,9 @@ var ledSensor = new groveSensors.GroveLed(5);
 var buzzerSensor = new mraa.Gpio(6);
 
 // Configure GPIO direction
-buzzerSensor.dir(mraa.DIR_OUT);
 touchSensor.dir(mraa.DIR_IN);
+waterSensor.dir(mraa.DIR_IN);
+buzzerSensor.dir(mraa.DIR_OUT);
 
 //
 var buzzerState = 0;
@@ -49,6 +50,7 @@ module.exports = {
         light: lightSensor,
         gas: gasSensor,
         led: ledSensor,
+        moisture: moistureSensor,
         buzzer: buzzerSensor,
         touch: touchSensor
     },
@@ -60,7 +62,8 @@ module.exports = {
             var lightValue = lightSensor.value();
             var touchValue = touchSensor.read();
             var moistureValue = moistureSensor.value();
-            console.log(`>> T: ${tempValue}ºC, L: ${lightValue}LUX, M: ${moistureValue}º, G: ${gasValue}, T2: ${touchValue}`);
+            var waterValue = waterSensor.read();
+            console.log(`>> T: ${tempValue}ºC, L: ${lightValue}LUX, M: ${moistureValue}, W: ${waterValue}, G: ${gasValue}, T2: ${touchValue}`);
 
             // Update the status of the platform
             platformStatus.temperature.push({x: now, y: tempValue});
@@ -96,6 +99,9 @@ module.exports = {
                 },
                 moisture: {
                     value: moistureValue
+                },
+                water: {
+                    value: waterValue
                 },
                 touch: {
                     state: touchValue
