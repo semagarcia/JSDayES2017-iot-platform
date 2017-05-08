@@ -16,7 +16,7 @@ var platformStatus = {
 };
 
 // Analog sensors
-var airQualitySensor;  // (A0)
+var airQualitySensor = new mraa.Aio(0);
 var lightSensor = new groveSensors.GroveLight(1);
 var tempSensor = new groveSensors.GroveTemp(2);
 var moistureSensor = new groveMoisture.GroveMoisture(3);
@@ -46,24 +46,34 @@ ledSensor.off();
 module.exports = {
     platformStatus: platformStatus,
     sensors: {
-        temperature: tempSensor,
-        light: lightSensor,
+        airQuality: airQualitySensor,
+        buzzer: buzzerSensor,
         gas: gasSensor,
         led: ledSensor,
+        light: lightSensor,
         moisture: moistureSensor,
-        buzzer: buzzerSensor,
-        touch: touchSensor
+        temperature: tempSensor,
+        touch: touchSensor,
+        water: waterSensor
     },
     monitor: (io) => {
         setInterval(function(){
             var now = new Date().getTime();
-            var tempValue = tempSensor.value();
+            var airQualityValue = airQualitySensor.read();
             var gasValue = gasSensor.getSample();
             var lightValue = lightSensor.value();
-            var touchValue = touchSensor.read();
             var moistureValue = moistureSensor.value();
+            var tempValue = tempSensor.value();
+            var touchValue = touchSensor.read();
             var waterValue = (waterSensor.read()) ? false : true;  // read() == 1 => dry, read() == 0 => wet/water
-            console.log(`>> T: ${tempValue}ºC, L: ${lightValue}LUX, M: ${moistureValue}, W: ${waterValue}, G: ${gasValue}, T2: ${touchValue}`);
+            console.log(`>> ` + 
+                `A: ${airQualityValue}` +
+                `G: ${gasValue}, ` +
+                `L: ${lightValue}LUX, ` +
+                `M: ${moistureValue}, ` +
+                `T: ${tempValue}ºC, ` +
+                `T2: ${touchValue}` +
+                `W: ${waterValue}`);
 
             // Update the status of the platform
             platformStatus.temperature.push({x: now, y: tempValue});
