@@ -80,8 +80,7 @@ router.get('/http-stream', (req, res) => {
     // Send numIterations of chunk data in stream way (only one request made)
     interval = setInterval(() => {
         res.write(JSON.stringify({
-            sensors: sensors.currentValues,
-            dataTimestamp: new Date()
+            sensors: sensors.currentValues
         }));
     }, tickEventStream);
 
