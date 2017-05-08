@@ -94,8 +94,8 @@ module.exports = {
                 light: {
                     value: lightValue
                 },
-                rotary: {
-                    value: rotValue
+                moisture: {
+                    value: moistureValue
                 },
                 touch: {
                     state: touchValue
