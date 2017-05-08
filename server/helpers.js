@@ -1,3 +1,5 @@
+var GAS_THRESHOLD = 400;
+
 module.exports = {
     // Convert moisture sensor read in its equivalent range
     getMoistureRange: (moistureValue) => {
