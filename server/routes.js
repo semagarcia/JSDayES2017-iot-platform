@@ -62,7 +62,7 @@ router.get('/sensor/led', (req, res) => {
   });
 });
 
-app.get('/http-stream', (req, res) => {
+router.get('/http-stream', (req, res) => {
     // Handler for client-side disconnect 
     req.on('close', () => { 
         console.log('Client disconnected from the stream!'); 
