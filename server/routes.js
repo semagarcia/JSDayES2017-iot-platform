@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var sensors = require('./sensors');
+var tickEventStream = 1000;
 var interval = null;
 
 router.get('/settings', (req, res) => {
