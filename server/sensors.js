@@ -3,6 +3,17 @@ var sensors = require('jsupm_grove');
 var gasSensorLibrary = require('jsupm_gas');
 var GAS_THRESHOLD = 400;
 
+// Sensors
+var platformStatus = {
+    temperature: [],
+    gas: [],
+    light: [],
+    moisture: [],
+    water: [],
+    airQuality: [],
+    music: []
+};
+
 // Analog sensors
 var airQualitySensor;  // (A0)
 var lightSensor = new sensors.GroveLight(1);
@@ -30,15 +41,7 @@ touchSensor.dir(mraa.DIR_IN);
 //ledSensor.off();
 
 module.exports = {
-    platformStatus: {
-        temperature: [],
-        gas: [],
-        light: [],
-        moisture: [],
-        water: [],
-        airQuality: [],
-        music: []
-    },
+    platformStatus: platformStatus,
     sensors: {
         temperature: tempSensor,
         light: lightSensor,

@@ -61,8 +61,8 @@ io.on('connection', (clientSocket) => {
 /**
  * La que envía el dato actualizado
  */
-var x = require('./server/sensors')(io);
-x.monitor();
+var x = require('./server/sensors');
+x.monitor(io);
 
 function getRandomValue(max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
