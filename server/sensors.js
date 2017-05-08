@@ -70,6 +70,21 @@ getAirQualityRange = (airQualityValue) => {
     }
 }
 
+// Convert gas sensor read in its equivalent range
+getGasRange = (gasValue) => {
+    if(gasValue >= GAS_THRESHOLD) {
+        return {
+            gas: true,
+            status: 'GAS DETECTED!'
+        };
+    } else {
+        return {
+            gas: false,
+            status: 'No gas (OK)'
+        };
+    }
+}
+
 module.exports = {
     platformStatus: platformStatus,
     sensors: {
@@ -83,7 +98,17 @@ module.exports = {
         touch: touchSensor,
         water: waterSensor
     },
-    currentValues: () => { return currentSensorValues; },
+    currentValues: () => { 
+        return {
+            airQualityValue: getAirQualityRange(airQualitySensor.read()),
+            gasValue: gasSensor.getSample(),
+            lightValue: lightSensor.value(),
+            moistureValue: getMoistureRange(moistureSensor.value()),
+            tempValue: tempSensor.value(),
+            touchValue: touchSensor.read(),
+            waterValue: !waterSensor.read()
+        }; 
+    },
     monitor: (io) => {
         setInterval(function(){
             var now = new Date().getTime();
@@ -91,7 +116,7 @@ module.exports = {
                 airQualityValue: airQualitySensor.read(),
                 gasValue: gasSensor.getSample(),
                 lightValue: lightSensor.value(),
-                moistureValue: getMoistureRange(moistureSensor.value()),
+                moistureValue: moistureSensor.value(),
                 tempValue: tempSensor.value(),
                 touchValue: touchSensor.read(),
                 waterValue: !waterSensor.read()
