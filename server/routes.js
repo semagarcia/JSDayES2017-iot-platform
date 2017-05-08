@@ -14,35 +14,35 @@ router.get('/settings', (req, res) => {
 router.get('/temp', (req, res) => {
   res.send({
     sensor: 'temperature',
-    lastValues: platformStatus.temperature.slice(-20)
+    lastValues: sensors.platformStatus.temperature.slice(-20)
   });
 });
 
 router.get('/gas', (req, res) => {
   res.send({
     sensor: 'gas',
-    lastValues: platformStatus.gas.slice(-20)
+    lastValues: sensors.platformStatus.gas.slice(-20)
   });
 });
 
 router.get('/light', (req, res) => {
   res.send({
     sensor: 'light',
-    lastValues: platformStatus.light.slice(-20)
+    lastValues: sensors.platformStatus.light.slice(-20)
   });
 });
 
 router.get('/air-quality', (req, res) => {
   res.send({
     sensor: 'airQuality',
-    lastValues: platformStatus.airQuality.slice(-20)
+    lastValues: sensors.platformStatus.airQuality.slice(-20)
   });
 });
 
 router.get('/moisture', (req, res) => {
   res.send({
     sensor: 'moisture',
-    lastValues: platformStatus.moisture.slice(-20)
+    lastValues: sensors.platformStatus.moisture.slice(-20)
   });
 });
 
@@ -58,8 +58,7 @@ router.get('/music', (req, res) => {
 
 router.get('/sensor/led', (req, res) => {
   res.send({
-    sensor: 'led',
-    state: ledState
+    sensor: 'led'
   });
 });
 

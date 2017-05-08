@@ -61,56 +61,8 @@ io.on('connection', (clientSocket) => {
 /**
  * La que envía el dato actualizado
  */
-/*setInterval(function(){
-  var now = new Date().getTime();
-  var tempValue = tempSensor.value();
-  var gasValue = gasSensor.getSample();
-  var lightValue = lightSensor.value();
-  var rotValue = rotarySensor.abs_value();
-  var touchValue = touchSensor.read();
-  console.log(`>> T: ${tempValue}ºC, L: ${lightValue}LUX, R: ${rotValue}º, G: ${gasValue}, T2: ${touchValue}`);
-
-  // Update the status of the platform
-  platformStatus.temperature.push({x: now, y: tempValue});
-  platformStatus.gas.push({x: now, y: gasValue});
-  platformStatus.light.push({x: now, y: lightValue});
-
-  // Check the alert for the panic mode
-  if(gasValue > GAS_THRESHOLD && !panicMode) {
-    panicMode = true;
-    intervalPanicMode = setInterval(() => {
-      console.log(' >>>> PANIC MODE ENABLED!!!! <<<<');
-      buzzer.write(buzzerState);
-      buzzerState = (buzzerState === 0) ? 1 : 0;
-    }, 200);
-  } else if(gasValue <= GAS_THRESHOLD && panicMode) {
-    clearInterval(intervalPanicMode);
-    panicMode = false;
-    buzzer.write(0);
-    console.log('>> Disabling panic mode... all it is OK now!');
-  }
-
-  io.sockets.emit('sensors:values', { 
-    timestamp: now,
-    temperature: {
-      value: tempValue
-    },
-    gas: {
-      panicMode: panicMode,
-      value: gasValue
-    },
-    light: {
-      value: lightValue
-    },
-    rotary: {
-      value: rotValue
-    },
-    touch: {
-      state: touchValue
-    }
-  });
-}, 1000); // Parametrizar este valor
-*/
+var x = require('./server/sensors')(io);
+x.monitor();
 
 function getRandomValue(max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
