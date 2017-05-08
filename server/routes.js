@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var sensors = require('./sensors');
+var interval = null;
 
 router.get('/settings', (req, res) => {
   res.send([
