@@ -62,7 +62,7 @@ module.exports = {
             var lightValue = lightSensor.value();
             var touchValue = touchSensor.read();
             var moistureValue = moistureSensor.value();
-            var waterValue = waterSensor.read();
+            var waterValue = (waterSensor.read()) ? false : true;  // read() == 1 => dry, read() == 0 => wet/water
             console.log(`>> T: ${tempValue}ºC, L: ${lightValue}LUX, M: ${moistureValue}, W: ${waterValue}, G: ${gasValue}, T2: ${touchValue}`);
 
             // Update the status of the platform
