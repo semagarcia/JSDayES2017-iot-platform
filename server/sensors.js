@@ -60,7 +60,7 @@ module.exports = {
     currentValues: currentSensorValues,
     monitor: (io) => {
         setInterval(function(){
-            let now = new Date().getTime();
+            var now = new Date().getTime();
             currentSensorValues = {
                 airQualityValue: airQualitySensor.read(),
                 gasValue: gasSensor.getSample(),
