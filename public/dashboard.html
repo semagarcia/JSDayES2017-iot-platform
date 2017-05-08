@@ -106,7 +106,7 @@
             events: {
                 load: () => {
                     setTimeout(() => {
-                        semaUtils.requestSensorData('gas', gasChart, (data) => {
+                        semaUtils.requestSensorData('/api/gas', gasChart, (data) => {
                             socket.on('sensors:values', function(data) {
                                 // In case of panic mode, change the background color
                                 if(data.gas.panicMode) {
@@ -187,7 +187,7 @@
             events: {
                 load: () => {
                     setTimeout(() => {
-                        semaUtils.requestSensorData('light', luxChart, (data) => {
+                        semaUtils.requestSensorData('/api/light', luxChart, (data) => {
                             socket.on('sensors:values', function(data) {
                                 luxChart.series[0].addPoint({
                                     x: data.timestamp, 

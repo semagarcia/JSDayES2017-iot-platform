@@ -28,7 +28,7 @@ window.semaUtils = (function () {
      */
     utils.getSettings = (callback) => {
         $.ajax({
-            url: '/settings',
+            url: '/api/settings',
             success: function(data) {
                 callback(data);
             },
@@ -51,7 +51,7 @@ window.semaUtils = (function () {
     utils.requestSensorState = (sensor, callback) => {
         var promise = new Promise((resolve, reject) => {
             $.ajax({
-                url: '/sensor/' + sensor,
+                url: '/api/sensor/' + sensor,
                 success: (data) => {
                     resolve(data);
                 },
