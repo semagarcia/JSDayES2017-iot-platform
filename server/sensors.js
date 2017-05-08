@@ -3,6 +3,7 @@ var groveSensors = require('jsupm_grove');
 var groveMoisture = require('jsupm_grovemoisture');
 var gasSensorLibrary = require('jsupm_gas');
 var GAS_THRESHOLD = 400;
+var currentSensorValues = {};
 
 // Sensors
 var platformStatus = {
@@ -56,24 +57,27 @@ module.exports = {
         touch: touchSensor,
         water: waterSensor
     },
+    currentValues: currentSensorValues,
     monitor: (io) => {
         setInterval(function(){
-            var now = new Date().getTime();
-            var airQualityValue = airQualitySensor.read();
-            var gasValue = gasSensor.getSample();
-            var lightValue = lightSensor.value();
-            var moistureValue = moistureSensor.value();
-            var tempValue = tempSensor.value();
-            var touchValue = touchSensor.read();
-            var waterValue = (waterSensor.read()) ? false : true;  // read() == 1 => dry, read() == 0 => wet/water
+            currentSensorValues = {
+                now: new Date().getTime(),
+                airQualityValue: airQualitySensor.read(),
+                gasValue: gasSensor.getSample(),
+                lightValue: lightSensor.value(),
+                moistureValue: moistureSensor.value(),
+                tempValue: tempSensor.value(),
+                touchValue: touchSensor.read(),
+                waterValue: (waterSensor.read() === 1) ? false : true
+            };
             console.log(`>> ` + 
-                `A: ${airQualityValue}, ` +
-                `G: ${gasValue}, ` +
-                `L: ${lightValue}LUX, ` +
-                `M: ${moistureValue}, ` +
-                `T: ${tempValue}ºC, ` +
-                `T2: ${touchValue}, ` +
-                `W: ${waterValue}`);
+                `A: ${currentSensorValues.airQualityValue}, ` +
+                `G: ${currentSensorValues.gasValue}, ` +
+                `L: ${currentSensorValues.lightValue}LUX, ` +
+                `M: ${currentSensorValues.moistureValue}, ` +
+                `T: ${currentSensorValues.tempValue}ºC, ` +
+                `T2: ${currentSensorValues.touchValue}, ` +
+                `W: ${currentSensorValues.waterValue}`);
 
             // Update the status of the platform
             platformStatus.temperature.push({x: now, y: tempValue});

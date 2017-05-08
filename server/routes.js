@@ -62,4 +62,29 @@ router.get('/sensor/led', (req, res) => {
   });
 });
 
+app.get('/http-stream', (req, res) => {
+    // Handler for client-side disconnect 
+    req.on('close', () => { 
+        console.log('Client disconnected from the stream!'); 
+        clearInterval(interval);
+        res.end();
+    });
+
+    // Send these headers
+    res.writeHead(200, { 
+        'Content-Type': 'text/event-stream',
+        'Cache-control': 'no-cache',
+        'Connection': 'keep-alive' 
+    });
+
+    // Send numIterations of chunk data in stream way (only one request made)
+    interval = setInterval(() => {
+        res.write(JSON.stringify({
+            sensors: sensors.currentValues,
+            dataTimestamp: new Date()
+        }));
+    }, tickEventStream);
+
+});
+
 module.exports = router;
