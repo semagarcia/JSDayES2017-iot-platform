@@ -92,7 +92,7 @@ module.exports = {
                 buzzerSensor.write(buzzerState);
                 buzzerState = (buzzerState === 0) ? 1 : 0;
                 }, 200);
-            } else if(gasValue <= GAS_THRESHOLD && panicMode) {
+            } else if(currentSensorValues.gasValue <= GAS_THRESHOLD && panicMode) {
                 clearInterval(intervalPanicMode);
                 panicMode = false;
                 buzzerSensor.write(0);
