@@ -44,6 +44,7 @@ var ledState = 'off';
 buzzerSensor.write(0);
 ledSensor.off();
 
+// Convert moisture sensor read in its equivalent range
 getMoistureRange = (moistureValue) => {
     if(moistureValue >= 0 && moistureValue < 300) {
         return 'Dry';
@@ -51,6 +52,21 @@ getMoistureRange = (moistureValue) => {
         return 'Moist';
     } else {
         return 'Wet';
+    }
+}
+
+// Convert air quality sensor read in its equivalent range
+getAirQualityRange = (airQualityValue) => {
+    if(airQualityValue >= 0 && airQualityValue < 50) {
+        return 'Fresh air';
+    } else if(airQualityValue >= 50 && airQualityValue < 200) {
+        return 'Normal indoor air';
+    } else if(airQualityValue >= 200 && airQualityValue < 400) {
+        return 'Low pollution';
+    } else if(airQualityValue >= 400 && airQualityValue < 600) {
+        return 'High pollution';
+    } else if(airQualityValue >= 600) {
+        return 'Very high pollution';
     }
 }
 
