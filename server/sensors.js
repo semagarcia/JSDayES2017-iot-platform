@@ -31,14 +31,15 @@ var buzzerSensor = new mraa.Gpio(6);
 buzzerSensor.dir(mraa.DIR_OUT);
 touchSensor.dir(mraa.DIR_IN);
 
-//var buzzerSensorState = 0;
-//var panicMode = false;
-//var intervalPanicMode;
-//var ledState = 'off';
+//
+var buzzerSensorState = 0;
+var panicMode = false;
+var intervalPanicMode;
+var ledState = 'off';
 
 // Initialize sensors
-//buzzerSensor.write(0);
-//ledSensor.off();
+buzzerSensor.write(0);
+ledSensor.off();
 
 module.exports = {
     platformStatus: platformStatus,
@@ -70,13 +71,13 @@ module.exports = {
                 panicMode = true;
                 intervalPanicMode = setInterval(() => {
                 console.log(' >>>> PANIC MODE ENABLED!!!! <<<<');
-                buzzer.write(buzzerState);
+                buzzerSensor.write(buzzerState);
                 buzzerState = (buzzerState === 0) ? 1 : 0;
                 }, 200);
             } else if(gasValue <= GAS_THRESHOLD && panicMode) {
                 clearInterval(intervalPanicMode);
                 panicMode = false;
-                buzzer.write(0);
+                buzzerSensor.write(0);
                 console.log('>> Disabling panic mode... all it is OK now!');
             }
 
