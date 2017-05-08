@@ -80,12 +80,12 @@ module.exports = {
                 `W: ${currentSensorValues.waterValue}`);
 
             // Update the status of the platform
-            platformStatus.temperature.push({x: now, y: tempValue});
-            platformStatus.gas.push({x: now, y: gasValue});
-            platformStatus.light.push({x: now, y: lightValue});
+            platformStatus.temperature.push({x: now, y: currentSensorValues.tempValue});
+            platformStatus.gas.push({x: now, y: currentSensorValues.gasValue});
+            platformStatus.light.push({x: now, y: currentSensorValues.lightValue});
 
             // Check the alert for the panic mode
-            if(gasValue > GAS_THRESHOLD && !panicMode) {
+            if(currentSensorValues.gasValue > GAS_THRESHOLD && !panicMode) {
                 panicMode = true;
                 intervalPanicMode = setInterval(() => {
                 console.log(' >>>> PANIC MODE ENABLED!!!! <<<<');
@@ -102,23 +102,23 @@ module.exports = {
             io.sockets.emit('sensors:values', { 
                 timestamp: now,
                 temperature: {
-                    value: tempValue
+                    value: currentSensorValues.tempValue
                 },
                 gas: {
                     panicMode: panicMode,
-                    value: gasValue
+                    value: currentSensorValues.gasValue
                 },
                 light: {
-                    value: lightValue
+                    value: currentSensorValues.lightValue
                 },
                 moisture: {
-                    value: moistureValue
+                    value: currentSensorValues.moistureValue
                 },
                 water: {
-                    value: waterValue
+                    value: currentSensorValues.waterValue
                 },
                 touch: {
-                    state: touchValue
+                    state: currentSensorValues.touchValue
                 }
             });
         }, 1000);
