@@ -46,7 +46,7 @@
             events: {
                 load: () => {
                     setTimeout(() => {
-                        semaUtils.requestSensorData('temp', tempChart, (data) => {
+                        semaUtils.requestSensorData('/api/temp', tempChart, (data) => {
                             socket.on('sensors:values', function(data) {
                                 tempChart.series[0].addPoint({
                                     x: data.timestamp, 
