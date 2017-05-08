@@ -44,6 +44,16 @@ var ledState = 'off';
 buzzerSensor.write(0);
 ledSensor.off();
 
+getMoistureRange = (moistureValue) => {
+    if(moistureValue >= 0 && moistureValue < 300) {
+        return 'Dry';
+    } else if(moistureValue >= 300 && moistureValue < 600) {
+        return 'Moist';
+    } else {
+        return 'Wet';
+    }
+}
+
 module.exports = {
     platformStatus: platformStatus,
     sensors: {
@@ -57,7 +67,7 @@ module.exports = {
         touch: touchSensor,
         water: waterSensor
     },
-    currentValues: currentSensorValues,
+    currentValues: () => { return currentSensorValues; },
     monitor: (io) => {
         setInterval(function(){
             var now = new Date().getTime();
@@ -65,10 +75,10 @@ module.exports = {
                 airQualityValue: airQualitySensor.read(),
                 gasValue: gasSensor.getSample(),
                 lightValue: lightSensor.value(),
-                moistureValue: moistureSensor.value(),
+                moistureValue: getMoistureRange(moistureSensor.value()),
                 tempValue: tempSensor.value(),
                 touchValue: touchSensor.read(),
-                waterValue: (waterSensor.read() === 1) ? false : true
+                waterValue: !waterSensor.read()
             };
             console.log(`>> ` + 
                 `A: ${currentSensorValues.airQualityValue}, ` +
