@@ -138,7 +138,6 @@
     },
     function (chart) {  // Subscribe to the socket
         socket.on('sensors:values', function(data) {
-            console.log('sensors:values >> ', data);
             //var point = gaugeChart.series[0].points[0];
             //point.update(data.rotary.value);
         });
@@ -165,11 +164,11 @@
             $(this).attr('src', (state.indexOf('_on.') !== -1) ? state.replace('_on.', '_off.') : state.replace('_off.', '_on.'));
         });
 
-        /*semaUtils.requestSensorState('led', (sensorData) => {
+        semaUtils.requestSensorState('led', (sensorData) => {
             if(sensorData.sensor === 'led') {
                 changeSwitcherStatus(sensorData.state);
             }
-        });*/
+        });
         semaUtils.requestSensorState('led')
           .then((sensorData) => {
               if(sensorData.sensor === 'led') {
@@ -199,9 +198,9 @@
 
     socket.on('event:sensor', (data) => {
         console.log('event:sensor >> ', data);
-        /*if(data.sensor === 'switcher') {
+        if(data.sensor === 'switcher') {
             changeSwitcherStatus(data.value);
-        }*/
+        }
     });
 
     socket.on('sensors:values', (data) => {
