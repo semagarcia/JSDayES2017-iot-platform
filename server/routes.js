@@ -60,7 +60,8 @@ router.get('/music', (req, res) => {
 
 router.get('/sensor/led', (req, res) => {
   res.send({
-    sensor: 'led'
+    sensor: 'led',
+    state: 'off'
   });
 });
 
