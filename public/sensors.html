@@ -206,8 +206,8 @@
 
     socket.on('sensors:values', (data) => {
         console.log('sensors:values >> ', data);
-        /*if(data.touch && document.querySelector('#touch')) {
+        if(data.touch && document.querySelector('#touch')) {
             changeTouchSensor(data.touch.state);
-        }*/
+        }
     });
 </script>
