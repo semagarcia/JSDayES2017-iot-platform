@@ -3,6 +3,7 @@ var app = express();
 var cors = require('cors');
 var server = require('http').createServer(app);  
 var io = require('socket.io')(server);
+var platformSensors = require('./server/sensors');
 
 // Static folder configuration
 app.use(express.static(__dirname + '/public'));  
@@ -39,18 +40,16 @@ io.on('connection', (clientSocket) => {
       switch(actionData.sensor) {
         case 'switcher':
           if(actionData.action === 'on') {
-            led.on();
-            ledState = 'on';
+            platformSensors.sensors.led.on();
             io.sockets.emit('event:sensor', { 
               sensor: 'switcher',
-              value: ledState
+              value: 'on'
             });
           } else {
-            led.off();
-            ledState = 'off';
+            platformSensors.sensors.led.off();
             io.sockets.emit('event:sensor', { 
               sensor: 'switcher',
-              value: ledState
+              value: 'off'
             });
           }
           break;
@@ -61,8 +60,7 @@ io.on('connection', (clientSocket) => {
 /**
  * La que envía el dato actualizado
  */
-var x = require('./server/sensors');
-x.monitor(io);
+platformSensors.monitor(io);
 
 function getRandomValue(max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
