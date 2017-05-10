@@ -1,5 +1,5 @@
 <div class="row">
-  <h1>Sema IoT Platform!</h1>
+  <div class="col-xs-12"><h1>Sema IoT Platform :: Sensors</h1></div>
 </div>
 
 <div class="row">
@@ -138,14 +138,15 @@
     },
     function (chart) {  // Subscribe to the socket
         socket.on('sensors:values', function(data) {
-            var point = gaugeChart.series[0].points[0];
-            point.update(data.rotary.value);
+            console.log('sensors:values >> ', data);
+            //var point = gaugeChart.series[0].points[0];
+            //point.update(data.rotary.value);
         });
     });
 
     $(document).ready(() => {
         // Update the title
-        $(document).attr('title', 'T3chFest 2017 - Plataforma IoT :: Sensors');
+        $(document).attr('title', 'JSDayES 2017 - Plataforma IoT :: Sensors');
 
         $('#switcher').click(function() { 
             let stateImage = $(this).attr('src');
@@ -197,14 +198,16 @@
     }
 
     socket.on('event:sensor', (data) => {
-        if(data.sensor === 'switcher') {
+        console.log('event:sensor >> ', data);
+        /*if(data.sensor === 'switcher') {
             changeSwitcherStatus(data.value);
-        }
+        }*/
     });
 
     socket.on('sensors:values', (data) => {
-        if(data.touch && document.querySelector('#touch')) {
+        console.log('sensors:values >> ', data);
+        /*if(data.touch && document.querySelector('#touch')) {
             changeTouchSensor(data.touch.state);
-        }
+        }*/
     });
 </script>
