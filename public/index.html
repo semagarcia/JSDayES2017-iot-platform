@@ -24,7 +24,7 @@
                 <li><a id="menu-link-dashboard" page="dashboard" href="#">Dashboard</a></li>
                 <li><a id="menu-link-sensors" page="sensors" href="#">Sensors</a></li>
                 <li><a id="menu-link-apps" page="applications" href="#">Applications</a></li>
-                <li><a id="menu-link-garden" page="garde" href="#">Garden</a></li>
+                <li><a id="menu-link-garden" page="garden" href="#">Garden</a></li>
                 <li><a id="menu-link-cheatsheet" page="cheatsheet" href="#">Voice cheatsheet</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -105,19 +105,23 @@
                         console.log('inicio');
                             break;
                         case 'cuadro de mandos':
-                            console.log('dashboard');
+                            console.log('option: dashboard');
                             $('#menu-link-dashboard').trigger('click');
                             break;
                         case 'sensores':
-                            console.log('sensores');
+                            console.log('option: sensores');
                             $('#menu-link-sensors').trigger('click');
                             break;
                         case 'aplicaciones':
-                            console.log('aplicaciones');
+                            console.log('option: aplicaciones');
+                            $('#menu-link-apps').trigger('click');
+                            break;
+                        case 'jardin':
+                            console.log('option: jardin');
                             $('#menu-link-apps').trigger('click');
                             break;
                         case 'configuración':
-                            console.log('config');
+                            console.log('option: config');
                             $('#menu-link-settings').trigger('click');
                             break;
                     }
