@@ -37,7 +37,7 @@ io.on('connection', (clientSocket) => {
     clientSocket.on('event:sensor', (actionData) => {
       console.log('Registered action: ', JSON.stringify(actionData));
       switch(actionData.sensor) {
-        /*case 'switcher':
+        case 'switcher':
           if(actionData.action === 'on') {
             led.on();
             ledState = 'on';
@@ -53,7 +53,7 @@ io.on('connection', (clientSocket) => {
               value: ledState
             });
           }
-          break;*/
+          break;
       }
     });
 });
