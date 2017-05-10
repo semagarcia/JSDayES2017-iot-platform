@@ -148,6 +148,7 @@
         $(document).attr('title', 'JSDayES 2017 - Plataforma IoT :: Sensors');
 
         $('#switcher').click(function() { 
+            debugger;
             let stateImage = $(this).attr('src');
             let newState = (stateImage.slice(stateImage.lastIndexOf('_') + 1, stateImage.lastIndexOf('.')) === 'on') ? 'off' : 'on';
             $(this).attr('src', (stateImage.indexOf('_on.') !== -1) 
@@ -197,14 +198,12 @@
     }
 
     socket.on('event:sensor', (data) => {
-        console.log('event:sensor >> ', data);
         if(data.sensor === 'switcher') {
             changeSwitcherStatus(data.value);
         }
     });
 
     socket.on('sensors:values', (data) => {
-        console.log('sensors:values >> ', data);
         if(data.touch && document.querySelector('#touch')) {
             changeTouchSensor(data.touch.state);
         }
