@@ -64,7 +64,8 @@
                 }
             });
 
-            $('#menu-link-dashboard, #menu-link-sensors, #menu-link-apps, #menu-link-settings').click(function() {
+            $(`#menu-link-dashboard, #menu-link-sensors, #menu-link-apps, #menu-link-settings,
+                #menu-link-garden, #menu-link-cheatsheet`).click(function() {
                 $.get($(this).attr('page') + '.html', (data) => {
                     $('.container-outlet').fadeOut(300, function() {
                         $(this).html(data);
