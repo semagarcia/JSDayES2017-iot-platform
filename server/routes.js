@@ -48,6 +48,13 @@ router.get('/moisture', (req, res) => {
   });
 });
 
+router.get('/water-level', (req, res) => {
+  res.send({
+    sensor: 'water',
+    lastValues: sensors.platformStatus.water.slice(-20)
+  });
+});
+
 router.get('/music', (req, res) => {
   res.send({
     sensor: 'music',
@@ -58,7 +65,7 @@ router.get('/music', (req, res) => {
   });
 });
 
-router.get('/sensor/led', (req, res) => {
+router.get('/led', (req, res) => {
   res.send({
     sensor: 'led',
     state: 'off'
