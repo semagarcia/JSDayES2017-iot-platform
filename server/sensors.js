@@ -65,12 +65,15 @@ module.exports = {
             lightValue: lightSensor.value(),
             moistureValue: sensorRangeHelpers.getMoistureRange(moistureSensor.value()),
             tempValue: tempSensor.value(),
+            touchValue: touchSensor.read(),
             waterValue: sensorRangeHelpers.getWaterRange(waterSensor.read())
         }; 
     },
     monitor: (io) => {
         setInterval(function(){
             var now = new Date().getTime();
+
+            // Sampling sensors and updating current values
             currentSensorValues = {
                 airQualityValue: airQualitySensor.read(),
                 gasValue: gasSensor.getSample(),
@@ -89,11 +92,10 @@ module.exports = {
                 `T2: ${currentSensorValues.touchValue}, ` +
                 `W: ${currentSensorValues.waterValue}`);
 
-            // Update the status of the platform
+            // Update the status of the platform (buffer values - history)
             platformStatus.airQuality.push({ x: now, y: currentSensorValues.airQualityValue });
             platformStatus.gas.push({ x: now, y: currentSensorValues.gasValue });
             platformStatus.light.push({ x: now, y: currentSensorValues.lightValue });
-            //platformStatus.music.push({ x: now, y: currentSensorValues.musicValue });
             platformStatus.moisture.push({ x: now, y: currentSensorValues.moistureValue });
             platformStatus.temperature.push({ x: now, y: currentSensorValues.tempValue });
             platformStatus.water.push({ x: now, y: currentSensorValues.moistureValue });
@@ -113,10 +115,11 @@ module.exports = {
                 console.log('>> Disabling panic mode... all it is OK now!');
             }
 
+            // Send through the websocket the values recently sampled
             io.sockets.emit('sensors:values', { 
                 timestamp: now,
-                temperature: {
-                    value: currentSensorValues.tempValue
+                airQuality: {
+                    value: currentSensorValues.airQualityValue
                 },
                 gas: {
                     panicMode: panicMode,
@@ -128,11 +131,14 @@ module.exports = {
                 moisture: {
                     value: currentSensorValues.moistureValue
                 },
-                water: {
-                    value: currentSensorValues.waterValue
+                temperature: {
+                    value: currentSensorValues.tempValue
                 },
                 touch: {
                     state: currentSensorValues.touchValue
+                },
+                water: {
+                    value: currentSensorValues.waterValue
                 }
             });
         }, 1000);
