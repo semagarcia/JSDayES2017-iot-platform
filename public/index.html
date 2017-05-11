@@ -103,7 +103,8 @@
                     console.log(wildcard);
                     switch(wildcard) {
                         case 'inicio':
-                        console.log('inicio');
+                            console.log('inicio');
+                            window.location.href = location.origin;
                             break;
                         case 'cuadro de mandos':
                             console.log('option: dashboard');
@@ -117,7 +118,7 @@
                             console.log('option: aplicaciones');
                             $('#menu-link-apps').trigger('click');
                             break;
-                        case 'jardin':
+                        case 'jardín':
                             console.log('option: jardin');
                             $('#menu-link-apps').trigger('click');
                             break;
@@ -136,6 +137,9 @@
                 listen: true,
                 debug: true
             });
+
+            // Starts with artyom paused
+            artyom.dontObey();
         });
 
         var socket = io.connect();
