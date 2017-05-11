@@ -128,7 +128,7 @@
         <p style="text-align: center;">Selected: <span id="currentColorPicker"></span></p>
         <p style="text-align: center;">
           <button id="turnOnBulb" class="btn btn-primary">Turn on bulb</buton>
-          <button id="setBulbColor" class="btn btn-primary">Set color!</buton>
+          <button id="setBulbColor" class="btn btn-primary" style="margin: 0 12px;">Set color!</buton>
           <button id="turnOffBulb" class="btn btn-primary">Turn off bulb</buton>
         </p>
       </div>
@@ -205,7 +205,8 @@
 
       $('#setBulbColor').click(() => {
           if(R && G && B) {
-              semaUtils.setBulbColor(R, G, B);
+            console.log(`Color selected: (${R}, ${G}, ${B})`);
+            semaUtils.setBulbColor(R, G, B);
           } else {
             $('#currentColorPicker').text('Error! You have to pick a color before.');
           }
