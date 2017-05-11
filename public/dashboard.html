@@ -261,14 +261,14 @@
             events: {
                 load: () => {
                     setTimeout(() => {
-                        semaUtils.requestSensorData('/api/light', airQualityChart, (data) => {
+                        semaUtils.requestSensorData('/api/air-quality', airQualityChart, (data) => {
                             socket.on('sensors:values', function(data) {
                                 console.log('>> ', data);
                                 airQualityChart.series[0].addPoint({
                                     x: data.timestamp, 
-                                    y: data.light.value
+                                    y: data.airQuality.value
                                 }, true, true);
-                                $('#airQualityValue').text(data.light.value);
+                                $('#airQualityValue').text(data.airQuality.value);
                             });
                         });
                     }, 500);
