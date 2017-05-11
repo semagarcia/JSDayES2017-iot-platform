@@ -1,9 +1,17 @@
 var express = require('express');
 var app = express();
-var cors = require('cors');
+var https = require('https');
 var server = require('http').createServer(app);  
+var cors = require('cors');
+var fs = require('fs');
 var io = require('socket.io')(server);
 var platformSensors = require('./server/sensors');
+
+// Certs - set the httpsOptions
+var appSecure = express.createServer({
+    key: fs.readFileSync('./server/certs/key.pem'), 
+    cert: fs.readFileSync('./server/certs/cert.pem')
+});
 
 // Static folder configuration
 app.use(express.static(__dirname + '/public'));  
@@ -67,5 +75,9 @@ function getRandomValue(max, min) {
 }
 
 server.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+  console.log('Sema IoT Platform listening on port 3000!');
+});
+
+appSecure.listen(443, () => {
+  console.log('Sema IoT Platform listening on port 443!');
 });
