@@ -8,10 +8,12 @@ var io = require('socket.io')(server);
 var platformSensors = require('./server/sensors');
 
 // Certs - set the httpsOptions
-var appSecure = express.createServer({
+// Tip: openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+var httpsOptions = {
     key: fs.readFileSync('./server/certs/key.pem'), 
-    cert: fs.readFileSync('./server/certs/cert.pem')
-});
+    cert: fs.readFileSync('./server/certs/cert.pem'),
+    passphrase: '1234567890'
+};
 
 // Static folder configuration
 app.use(express.static(__dirname + '/public'));  
@@ -78,6 +80,6 @@ server.listen(3000, () => {
   console.log('Sema IoT Platform listening on port 3000!');
 });
 
-appSecure.listen(443, () => {
-  console.log('Sema IoT Platform listening on port 443!');
+https.createServer(httpsOptions, app).listen(8443, () => {
+  console.log('Sema IoT Platform listening on port 8443!');
 });
