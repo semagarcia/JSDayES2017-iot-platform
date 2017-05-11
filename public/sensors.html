@@ -174,9 +174,6 @@
               if(sensorData.sensor === 'led') {
                   changeSwitcherStatus(sensorData.state);
               }
-          })
-          .catch((err) => {
-              alert('Sensor fetch error: ', err);
           });
     });
 
