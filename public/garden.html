@@ -6,8 +6,8 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
-    <div class="panel panel-default">
+  <div class="col-xs-12 col-md-6">
+    <div class="panel panel-default moistureWidthRef">
       <div class="panel-heading">
         <span class="label label-warning" style="font-size: 20px">Moisture history</span>
       </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-6">
+  <div class="col-xs-12 col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
         <span class="label label-warning" style="font-size: 20px">Water level</span>
@@ -34,7 +34,7 @@
 
         var moistureChart = new Highcharts.chart('moistureChart', {
             chart: {
-                width: $('.container').width() * 0.94,
+                width: $('.moistureWidthRef').width() * 0.94,
                 type: 'spline',
                 animation: Highcharts.svg,
                 marginRight: 10,
@@ -98,14 +98,9 @@
     }
 
     semaUtils.requestSensorState('water-level')
-        .then((sensorData) => {
-            console.log('---> ', sensorData);
-            
-            // sensorData.sensor === 'water'
-            // sensorData.lastValues => array(x, y)
-        })
-        .catch((err) => {
-            alert('Sensor fetch error: ', err);
+        .then((sensorsData) => {
+            if(sensorsData.sensor === 'water')
+                updateWaterLevelStatus(sensorsData.lastValues[0].y);
         });
 
     socket.on('sensors:values', (sensorsData) => {
