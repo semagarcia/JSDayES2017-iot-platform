@@ -48,6 +48,7 @@ window.semaUtils = (function () {
                     resolve(data);
                 },
                 error: (err) => {
+                    console.log(`Error requesting sensor ${sensor} failed: ${err}`);
                     reject(err);
                 },
                 cache: false
