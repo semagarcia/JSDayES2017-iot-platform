@@ -263,12 +263,14 @@
                     setTimeout(() => {
                         semaUtils.requestSensorData('/api/air-quality', airQualityChart, (data) => {
                             socket.on('sensors:values', function(data) {
-                                console.log('>> ', data);
+                                // Update chart
                                 airQualityChart.series[0].addPoint({
                                     x: data.timestamp, 
                                     y: data.airQuality.value
                                 }, true, true);
-                                $('#airQualityValue').text(data.airQuality.value);
+
+                                // Update label
+                                $('#airQualityValue').text(data.airQuality.range);
                             });
                         });
                     }, 500);

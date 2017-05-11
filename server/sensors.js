@@ -119,7 +119,8 @@ module.exports = {
             io.sockets.emit('sensors:values', { 
                 timestamp: now,
                 airQuality: {
-                    value: currentSensorValues.airQualityValue
+                    value: currentSensorValues.airQualityValue,
+                    range: sensorRangeHelpers.getAirQualityRange(currentSensorValues.airQualityValue)
                 },
                 gas: {
                     panicMode: panicMode,
