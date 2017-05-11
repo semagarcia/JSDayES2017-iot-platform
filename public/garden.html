@@ -22,7 +22,7 @@
         <span class="label label-warning" style="font-size: 20px">Water level</span>
       </div>
       <div class="panel-body" style="text-align:center;">
-        <img id="touch" src="./images/icon_water_dry.png" class="col-sm-12 col-md-12" style="max-width:256px; float:none" />
+        <img id="water" src="./images/icon_water_dry.png" class="col-sm-12 col-md-12" style="max-width:256px; float:none" />
       </div>
     </div>
   </div>
@@ -88,19 +88,29 @@
                 data: []
             }]
         });
+    });
 
-        semaUtils.requestSensorData('/api/moisture', moistureChart, (sensorData) => {
-            console.log('data: ', sensorData);
-            /*if(sensorData.sensor === 'led') {
-                changeSwitcherStatus(sensorData.state);
-            }*/
+    function updateWaterLevelStatus(waterLevel) {
+        $('#water').attr('src', 
+                (waterLevel) 
+                ? './images/icon_water_wet.png' 
+                : './images/icon_water_dry.png');
+    }
+
+    semaUtils.requestSensorState('water-level')
+        .then((sensorData) => {
+            console.log('---> ', sensorData);
+            
+            // sensorData.sensor === 'water'
+            // sensorData.lastValues => array(x, y)
+        })
+        .catch((err) => {
+            alert('Sensor fetch error: ', err);
         });
 
-        socket.on('event:sensor', (data) => {
-            console.log('>> ', data);
-            if(data.sensor === 'switcher') {
-                //changeSwitcherStatus(data.value);
-            }
-        });
+    socket.on('sensors:values', (sensorsData) => {
+        if(sensorsData.water) {
+            updateWaterLevelStatus(sensorsData.water.value);
+        }
     });
 </script>

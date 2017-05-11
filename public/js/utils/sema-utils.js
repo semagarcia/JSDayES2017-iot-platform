@@ -40,10 +40,10 @@ window.semaUtils = (function () {
     /**
      * 
      */
-    utils.requestSensorState = (sensor, callback) => {
+    utils.requestSensorState = (sensor) => {
         var promise = new Promise((resolve, reject) => {
             $.ajax({
-                url: '/api/sensor/' + sensor,
+                url: '/api/' + sensor,
                 success: (data) => {
                     resolve(data);
                 },

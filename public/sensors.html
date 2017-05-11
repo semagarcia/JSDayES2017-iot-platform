@@ -169,11 +169,6 @@
             $(this).attr('src', (state.indexOf('_on.') !== -1) ? state.replace('_on.', '_off.') : state.replace('_off.', '_on.'));
         });
 
-        semaUtils.requestSensorState('led', (sensorData) => {
-            if(sensorData.sensor === 'led') {
-                changeSwitcherStatus(sensorData.state);
-            }
-        });
         semaUtils.requestSensorState('led')
           .then((sensorData) => {
               if(sensorData.sensor === 'led') {
