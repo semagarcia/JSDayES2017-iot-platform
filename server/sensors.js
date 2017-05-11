@@ -90,9 +90,13 @@ module.exports = {
                 `W: ${currentSensorValues.waterValue}`);
 
             // Update the status of the platform
-            platformStatus.temperature.push({x: now, y: currentSensorValues.tempValue});
-            platformStatus.gas.push({x: now, y: currentSensorValues.gasValue});
-            platformStatus.light.push({x: now, y: currentSensorValues.lightValue});
+            platformStatus.airQuality.push({ x: now, y: currentSensorValues.airQualityValue });
+            platformStatus.gas.push({ x: now, y: currentSensorValues.gasValue });
+            platformStatus.light.push({ x: now, y: currentSensorValues.lightValue });
+            //platformStatus.music.push({ x: now, y: currentSensorValues.musicValue });
+            platformStatus.moisture.push({ x: now, y: currentSensorValues.moistureValue });
+            platformStatus.temperature.push({ x: now, y: currentSensorValues.tempValue });
+            platformStatus.water.push({ x: now, y: currentSensorValues.moistureValue });
 
             // Check the alert for the panic mode
             if(currentSensorValues.gasValue > GAS_THRESHOLD && !panicMode) {
