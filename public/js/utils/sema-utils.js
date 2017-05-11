@@ -1,6 +1,7 @@
 window.semaUtils = (function () {
-    var remoteUrl = 'http://192.168.1.228:3001'; 
     var utils = {};
+    var ledCharacteristic = null;
+    var remoteUrl = 'http://192.168.1.228:3001'; 
 
     /**
      * 
@@ -180,6 +181,7 @@ window.semaUtils = (function () {
             .then(function(characteristic) {
                 // Step 5: Write to the characteristic
                 console.log('setp5: ', characteristic);
+                ledCharacteristic = characteristic;
                 var data = new Uint8Array([0xbb, 0x25, 0x05, 0x44]);
                 return characteristic.writeValue(data);
             })
@@ -196,8 +198,30 @@ window.semaUtils = (function () {
      * 
      */
     utils.setBulbColor = (r, g, b) => {
-        
+        let data = new Uint8Array([0x56, r, g, b, 0x00, 0xf0, 0xaa]);
+        return ledCharacteristic.writeValue(data)
+            .catch(err => console.log('Error when writing value! ', err));
     };
+
+    /**
+     * 
+     */
+    utils.turnOn = () => {
+        let data = new Uint8Array([0xcc, 0x23, 0x33]);
+        return ledCharacteristic.writeValue(data)
+            .then(() => {})
+            .catch(err => console.log('Error when turning on! ', err));
+    }
+
+    /**
+     * 
+     */
+    utils.turnOff = () => {
+        let data = new Uint8Array([0xcc, 0x24, 0x33]);
+        return ledCharacteristic.writeValue(data)
+            .then(() => {})
+            .catch(err => console.log('Error when turning off! ', err));
+    }
 
     return utils;
 }($));
