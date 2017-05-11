@@ -58,7 +58,8 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <span class="label label-warning" style="font-size: 20px">Ambiente bulb</span>
-        <button id="connectToBleBulb" style="float:right">Connect</button>
+        <!--<button id="connectToBleBulb" class="btn btn-primary" style="float:right">Connect</button>-->
+        <span class="label label-primary" style="cursor:pointer; float:right; font-size: 20px">Pair to BLE device...</span>
       </div>
       <div class="panel-body clickable" style="text-align:center;">
         <img id="colorPickerController" src="./images/icon_lamp.png" class="col-sm-12 col-md-12" style="max-width:256px; float:none" />
@@ -120,13 +121,17 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="colorPickerModal">Enable zen mode</h4>
+        <h4 class="modal-title" id="colorPickerModal">Color picker</h4>
       </div>
       <div class="modal-body">
         <h1>Select the color:</h1>
         <p style="text-align: center;">Color: <input id="colorPicker" type="color" /> <button id="selectColor">Select color</button></p> 
         <p style="text-align: center;">Selected: <span id="currentColorPicker"></span></p>
-        <p style="text-align: center;"><button id="setBulbColor" class="btn btn-primary">Set color!</buton></p>
+        <p style="text-align: center;">
+          <button id="turnOnBulb" class="btn btn-primary">Turn on bulb</buton>
+          <button id="setBulbColor" class="btn btn-primary">Set color!</buton>
+          <button id="turnOffBulb" class="btn btn-primary">Turn off bulb</buton>
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -181,6 +186,14 @@
       
       $('#colorPickerController').click(() => {
           $('#colorPickerModal').modal('show');
+      });
+
+      $('#turnOnBulb').click(() => {
+        semaUtils.turnOn();
+      });
+
+      $('#turnOffBulb').click(() => {
+        semaUtils.turnOff();
       });
 
       $('#selectColor').click(() => {
