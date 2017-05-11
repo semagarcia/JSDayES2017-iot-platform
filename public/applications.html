@@ -137,6 +137,7 @@
 
 <script>
     $(document).ready(() => {
+        var color, R, G, B;
         $(document).attr('title', 'JSDayES 2017 - Plataforma IoT :: Applications');
 
         $('#lampController').click(function() { 
@@ -183,10 +184,10 @@
       });
 
       $('#selectColor').click(() => {
-          var color = ($('#colorPicker').val()).slice(1);
-          var R = parseInt(color.substring(0, 2), 16);
-          var G = parseInt(color.substring(2, 4), 16);
-          var B = parseInt(color.substring(4, 6), 16);
+          color = ($('#colorPicker').val()).slice(1);
+          R = parseInt(color.substring(0, 2), 16);
+          G = parseInt(color.substring(2, 4), 16);
+          B = parseInt(color.substring(4, 6), 16);
           $('#currentColorPicker').text(`rgb(${R}, ${G}, ${B})`);
       });
 
