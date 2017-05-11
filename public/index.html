@@ -97,6 +97,23 @@
             });
 
             artyom.addCommands({
+                indexes: ["scroll *"],
+                smart: true,
+                action: (i, wildcard) => {
+                    switch(wildcard) {
+                        case 'down':
+                            console.log('scrolling down...');
+                            window.scrollBy(0, 100);
+                            break;
+                        case 'up':
+                            console.log('scrolling up...');
+                            window.scrollBy(0, -100);
+                            break;
+                    }
+                }
+            });
+
+            artyom.addCommands({
                 indexes: ["menú *"],
                 smart: true,
                 action: (i, wildcard) => {
