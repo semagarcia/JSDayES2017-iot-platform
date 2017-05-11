@@ -200,7 +200,6 @@ window.semaUtils = (function () {
     utils.setBulbColor = (r, g, b) => {
         let data = new Uint8Array([0x56, r, g, b, 0x00, 0xf0, 0xaa]);
         return ledCharacteristic.writeValue(data)
-            .then(() => {})
             .catch(err => console.log('Error when writing value! ', err));
     };
 
