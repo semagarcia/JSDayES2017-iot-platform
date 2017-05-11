@@ -6,10 +6,8 @@ var interval = null;
 
 router.get('/settings', (req, res) => {
   res.send([
-    { key: 'frequency', name: 'Sampling frequency', value: 'xxx' },
-    { key: 'numberOfPoints', name: 'Number of points', value: 'yyy' },
-    { key: 'k1', name: 'n1', value: 'v1' },
-    { key: 'k2', name: 'n2', value: 'v2' }
+    { key: 'frequency', name: 'Sampling frequency', value: 1000 },
+    { key: 'numberOfPoints', name: 'Number of points in charts', value: 20 }
   ]);
 });
 
