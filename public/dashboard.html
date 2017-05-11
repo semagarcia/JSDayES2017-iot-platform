@@ -35,6 +35,16 @@
             <div id="luxChart" style="width:100% !important"></div>
         </div>
     </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="padding-bottom: 12px">Air Quality sensor</h3>
+            <span class="label label-primary" style="font-size: 20px"><span id="airQualityValue"></span></span>
+        </div>
+        <div id="containerAirQualityChart" class="panel-body">
+            <div id="airQualityChart" style="width:100% !important"></div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -216,6 +226,66 @@
               value: 0,
               width: 1,
               color: '#808080'
+          }]
+        },
+        xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 150
+      },
+      tooltip: {
+          formatter: function () {
+              return '<b>' + this.series.name + '</b><br/>' +
+                  Highcharts.dateFormat('%d-%m-%Y %H:%M:%S', this.x) + '<br/>' +
+                  Highcharts.numberFormat(this.y, 2);
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      exporting: {
+          enabled: false
+      },
+      series: [{
+          name: 'serie',
+          data: []
+      }]
+    });
+
+    // Air quality chart
+    var airQualityChart = new Highcharts.chart('airQualityChart', {
+        chart: {
+            width: $('.container').width() * 0.94,
+            type: 'spline',
+            animation: Highcharts.svg,
+            marginRight: 10,
+            events: {
+                load: () => {
+                    setTimeout(() => {
+                        semaUtils.requestSensorData('/api/light', airQualityChart, (data) => {
+                            socket.on('sensors:values', function(data) {
+                                console.log('>> ', data);
+                                airQualityChart.series[0].addPoint({
+                                    x: data.timestamp, 
+                                    y: data.light.value
+                                }, true, true);
+                                $('#airQualityValue').text(data.light.value);
+                            });
+                        });
+                    }, 500);
+                }
+            }
+        },
+        title: {
+            text: 'Air quality values'
+        },  
+        yAxis: {
+            title: {
+                text: ''
+            },
+            plotLines: [{
+              value: 0,
+              width: 1,
+              color: '#11cc11'
           }]
         },
         xAxis: {
