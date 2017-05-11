@@ -3,6 +3,11 @@
 </div>
 
 <div class="row">
+  <div class="col-xs-12" style="padding: 12px 16px;">
+    <p>
+        <em>In that view you can check the different sensors defined in the platform, either sensors or actuators.</em>
+    </p>
+  </div>
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -148,7 +153,6 @@
         $(document).attr('title', 'JSDayES 2017 - Plataforma IoT :: Sensors');
 
         $('#switcher').click(function() { 
-            debugger;
             let stateImage = $(this).attr('src');
             let newState = (stateImage.slice(stateImage.lastIndexOf('_') + 1, stateImage.lastIndexOf('.')) === 'on') ? 'off' : 'on';
             $(this).attr('src', (stateImage.indexOf('_on.') !== -1) 
