@@ -39,7 +39,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title" style="padding-bottom: 12px">Air Quality sensor</h3>
-            <span class="label label-primary" style="font-size: 20px"><span id="airQualityValue"></span></span>
+            <span class="label label-success" style="font-size: 20px"><span id="airQualityValue"></span></span>
         </div>
         <div id="containerAirQualityChart" class="panel-body">
             <div id="airQualityChart" style="width:100% !important"></div>
@@ -153,15 +153,15 @@
               value: 0,
               width: 1,
               color: '#808080'
-          },
-          {
+            },
+            {
               value: 250,
               width: 1,
               label: { text: 'Low gas risk level' },
               zIndex: 4,
               color: '#DDDF0D'
-          },
-          {
+            },
+            {
               value: 400,
               width: 1,
               label: { text: 'High gas risk level' },
@@ -222,6 +222,7 @@
             title: {
                 text: 'Lumens'
             },
+            max: 1024,
             plotLines: [{
               value: 0,
               width: 1,
@@ -285,9 +286,31 @@
                 text: ''
             },
             plotLines: [{
-              value: 0,
+              value: 50,
               width: 1,
+              label: { text: 'Normal indoor air' },
               color: '#11cc11'
+            },
+            {
+              value: 200,
+              width: 1,
+              label: { text: 'Low pollution' },
+              zIndex: 4,
+              color: '#808080'
+            },
+            {
+              value: 400,
+              width: 1,
+              label: { text: 'High pollution' },
+              zIndex: 4,
+              color: '#DDDF0D'
+            },
+            {
+              value: 600,
+              width: 1,
+              label: { text: 'Very high pollution' },
+              zIndex: 4,
+              color: '#F00'
           }]
         },
         xAxis: {
